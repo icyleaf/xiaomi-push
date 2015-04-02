@@ -1,7 +1,7 @@
 require "xiaomi/push/version"
+require "xiaomi/push/client"
 
 module Xiaomi
   module Push
-    # Your code goes here...
   end
 end
