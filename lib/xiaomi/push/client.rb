@@ -1,24 +1,34 @@
 require "rest-client"
-require "xiaomi/push/services/message"
-require "xiaomi/push/services/topic"
-require "xiaomi/push/services/alias"
-require "xiaomi/push/services/feedback"
-
+require "multi_json"
 
 module Xiaomi
   module Push
     class Client
-      attr_reader :client, :secret
-      def initialize(client:, secret:, **options)
+      include Const
 
+      attr_reader :device, :secret, :header
+      def initialize(secret)
+        @device = self.class.name.split("::")[-1].upcase
+
+        unless DEVICES.include?@device
+          raise NameError, 'Instance using Xiaomi::Push::Android or Xiaomi::Push::IOS'
+        end
+
+        @secret = secret
+
+        @header = {
+          'Authorization' => "key=#{@secret}"
+        }
+
+        use_production!
       end
 
       def message
-        @message ||= ::Device::Message.new(self)
+        @message ||= Services::Message.new(self)
       end
 
       def topic
-        @topic ||= ::Device::Topic.new(self)
+        @topic ||= Services::Topic.new(self)
       end
 
     end
