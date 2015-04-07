@@ -1,4 +1,5 @@
 require "xiaomi/push/version"
+require "xiaomi/push/error"
 require "xiaomi/push/const"
 require "xiaomi/push/client"
 

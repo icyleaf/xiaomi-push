@@ -3,5 +3,9 @@ module Xiaomi
     class IOS < Xiaomi::Push::Client
 
     end
+
+    class Ios < Xiaomi::Push::Client
+
+    end
   end
 end

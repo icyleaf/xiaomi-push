@@ -73,6 +73,25 @@ client.message.send topic:'topic', message:message
 client.message.send all:true, message:message
 ```
 
+命令行工具
+----------
+
+本 SDK 同时还附带一个命令行工具 `xmp`，可以使用它尽快快速的测试和验证参数信息.
+
+```bash
+# 发消息
+## iOS
+### 发送附加内容并设置未读消息数为 2
+$ xmp message --device ios --secret '<密钥>' -d '推送的内容' -b 2 -e uri="app://bbs?id",source="push"
+
+## Android
+### 最基本的推送信息
+$ xmp message --device android --secret '<密钥>' -i '推送的标题' -d '推送的内容'
+
+# 查看帮助
+$ xmp message --help
+```
+
 开发
 ----
 
