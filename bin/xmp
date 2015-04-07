@@ -1,0 +1,64 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'commander/import'
+require "bundler/setup"
+require "xiaomi/push"
+require "awesome_print"
+
+
+program :version, '0.0.1'
+program :description, 'xiaomi push command line tool'
+
+program :help, 'Author', 'icyleaf'
+program :help, 'Website', 'icyleaf.cn@gmail.com'
+program :help_formatter, :compact
+
+default_command :help
+
+command :message do |c|
+  c.syntax = 'xmp message [options]'
+  c.summary = 'Send message'
+  c.description = 'Send message via regid/alias/topic/all etc'
+
+  c.option '-d', '--device DEVICE', String, 'device'
+  c.option '-s', '--secret SECRET', 'app secret'
+  c.option '-r', '--regid REG_ID', 'reg id'
+  c.option '-a', '--alias ALIAS', 'alias'
+  c.option '-t', '--topic TOPIC', 'topic name'
+  c.action do |args, options|
+    @device = options.device.capitalize
+    @secret = options.secret
+
+    determine_device! unless @device
+    determine_secret! unless @secret
+    determine_type!(options)
+
+    client = Xiaomi::Push.const_get(@device).new(@secret)
+    # client.message.send
+  end
+
+  private
+
+    def determine_device!
+      devices = %w[Android iOS].freeze
+      @device = choose "Select push device:", *devices
+    end
+
+    def determine_secret!
+      @secret ||= ask 'Xiaomi app secret:'
+    end
+
+    def determine_type!(options)
+      types = %w[regid alias topic].freeze
+      @type = types.select { |k| options.has_key?k }
+
+      ap @type
+
+      unless @type.count > 0
+        @type = choose "Select push device:", *types
+
+        @value = ask "#{@type} value:"
+      end
+    end
+end
