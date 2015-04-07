@@ -27,12 +27,17 @@ command :message do |c|
   c.option '-a', '--alias ALIAS', 'alias'
   c.option '-t', '--topic TOPIC', 'topic name'
   c.action do |args, options|
+
+    ap options
+
     @device = options.device.capitalize
     @secret = options.secret
 
     determine_device! unless @device
     determine_secret! unless @secret
     determine_type!(options)
+
+    determine_message
 
     client = Xiaomi::Push.const_get(@device).new(@secret)
     # client.message.send

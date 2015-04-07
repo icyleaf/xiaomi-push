@@ -1,3 +1,5 @@
+require 'xiaomi/push/services/messages/ios'
+
 module Xiaomi
   module Push
     module Services
@@ -43,9 +45,9 @@ module Xiaomi
             params[type[:query].to_sym] = value
 
             r = RestClient.post url, params, @context.header
-            ap MultiJson.load r
+            data = MultiJson.load r
           else
-            raise ArgumentError, 'Not match message type: reg_id/alias/topic/topics/all'
+            raise Xiaomi::Push::RequestError, 'Not match message type: reg_id/alias/topic/topics/all'
           end
         end
 

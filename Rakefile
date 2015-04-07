@@ -21,7 +21,14 @@ task :test => :dotenv do
   client = Xiaomi::Push::IOS.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
 
   # client.message.send(reg_id:'', data:message_data)
-  client.message.send(alias:'866383029998732', data:message_data)
+  r = client.message.send(alias:'866383029998732', data:message_data)
   # client.message.send(topic:'test', data:message_data)
+  ap r
+end
 
+task :message do
+  ios_message = Xiaomi::Push::Message::IOS.new(title:'dddd')
+  ios_message.extra('url', 'http://www.xxx.com')
+  ap ios_message
+  ap ios_message.extra('url')
 end
