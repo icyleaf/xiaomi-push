@@ -9,12 +9,11 @@ module Xiaomi
       attr_reader :device, :secret, :header
       def initialize(secret)
         @device = self.class.name.split("::")[-1].upcase
+        @secret = secret
 
         unless DEVICES.include?@device
           raise NameError, 'Instance using Xiaomi::Push::Android or Xiaomi::Push::IOS'
         end
-
-        @secret = secret
 
         @header = {
           'Authorization' => "key=#{@secret}"
@@ -31,6 +30,10 @@ module Xiaomi
         @topic ||= Services::Topic.new(self)
       end
 
+      def request(url, params)
+        r = RestClient.post url, params, @header
+        data = MultiJson.load r
+      end
     end
   end
 end
