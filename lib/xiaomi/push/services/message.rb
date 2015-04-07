@@ -1,4 +1,5 @@
 require 'xiaomi/push/services/messages/ios'
+require 'xiaomi/push/services/messages/android'
 
 module Xiaomi
   module Push
