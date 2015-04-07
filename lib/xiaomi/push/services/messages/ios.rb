@@ -1,7 +1,7 @@
 module Xiaomi
   module Push
     module Message
-      class IOS
+      class IOS < Base
         attr_accessor :title, :description, :badge, :sound, :category, :extras
         def initialize(**params)
           @title = params[:title]
@@ -10,14 +10,6 @@ module Xiaomi
           @sound = params[:sound] || 'default'
           @category = params[:category]
           @extras = params[:extras] || {}
-        end
-
-        def extra(key, value = nil)
-          unless value
-            @extras[key]
-          else
-            @extras[key] = value
-          end
         end
       end
     end

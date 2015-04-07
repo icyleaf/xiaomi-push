@@ -29,6 +29,7 @@ end
 task :message do
   ios_message = Xiaomi::Push::Message::IOS.new(title:'dddd')
   ios_message.extra('url', 'http://www.xxx.com')
-  ap ios_message
-  ap ios_message.extra('url')
+  p ios_message
+
+  p ios_message.build
 end

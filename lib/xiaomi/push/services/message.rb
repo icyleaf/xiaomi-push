@@ -1,3 +1,4 @@
+require 'xiaomi/push/services/messages/base'
 require 'xiaomi/push/services/messages/ios'
 require 'xiaomi/push/services/messages/android'
 
