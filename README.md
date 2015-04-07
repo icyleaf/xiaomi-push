@@ -37,15 +37,40 @@ client = Xiaomi::Push::IOS('Fill your app secret')
 ## Android
 client = Xiaomi::Push::Android('Fill your app secret')
 
+# 消息结构
+## Hash 模式
+message = {
+  'title': 'Android 需要标题',
+  'descrption': 'iOS 主要显示描述',
+  'extra.uri': 'app://bbs?id=8624'
+}
+
+## Builder 模式
+### iOS
+message = Xiaomi::Push::Message::IOS.new(
+  description:'iOS 主要显示描述',
+  badge:10
+)
+
+### Android
+message = Xiaomi::Push::Message::Android.new(
+  title:'标题要有吸引力',
+  description:'描述可以在手机显示两行',
+  notify_type:'DEFAULT_ALL'
+)
+
 # 发消息
 ## 根据 regid
-client.message.send reg_id:'id', data:'playload'
+client.message.send reg_id:'id', message:message
 
 ## 根据 alias
-client.message.send alias:'alias', data:'playload'
+client.message.send alias:'alias', message:message
 
 ## 根据 topic
-client.message.send topic:'topic', data:'playload'
+client.message.send topic:'topic', message:message
+
+## 全部推送
+client.message.send all:true, message:message
 ```
 
 开发

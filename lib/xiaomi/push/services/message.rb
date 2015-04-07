@@ -43,11 +43,11 @@ module Xiaomi
           type, value = fetch_message_type(options)
           if type && value
             url = @context.build_uri("message/#{type[:uri]}")
-            if options[:data].kind_of?Xiaomi::Push::Message::Base
-              options[:data].type(type[:query], value)
-              params = options[:data].build
+            if options[:message].kind_of?Xiaomi::Push::Message::Base
+              options[:message].type(type[:query], value)
+              params = options[:message].build
             else
-              params = options[:data]
+              params = options[:message]
               params[type[:query].to_sym] = value
             end
 

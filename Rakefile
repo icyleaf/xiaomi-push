@@ -11,23 +11,29 @@ RSpec::Core::RakeTask.new(:spec)
 
 task :default => :spec
 
-task :test => :dotenv do
+task :send => :dotenv do
 
-  message_data = {
+  message = {
     title: '这是标题',
     description: '这个是推送的描述',
     notify_type: -1,
   }
-  client = Xiaomi::Push::IOS.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
+  client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
 
+  p "Send message to android device"
   # client.message.send(reg_id:'', data:message_data)
-  r = client.message.send(alias:'866383029998732', data:message_data)
+  r = client.message.send(alias:'866383029998732', message:message)
   # client.message.send(topic:'test', data:message_data)
-  # ap r
+  ap r
 
-
-  r = client.message.send(reg_id:'icyleaf', data:Xiaomi::Push::Message::IOS.new(title: '这是标题', description:'这不是描述'))
-  # ap r
+  p "Send message to ios device"
+  client = Xiaomi::Push::IOS.new(ENV['XIAOMI_PUSH_IOS_SECRET'])
+  r = client.message.send(
+    reg_id:'xksdf76s667687xd786sdxsdf689s6x6s8d76s8d',
+    message:Xiaomi::Push::Message::IOS.new(
+      description:'这不是描述'
+  ))
+  ap r
 end
 
 task :message do
