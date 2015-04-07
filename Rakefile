@@ -23,7 +23,11 @@ task :test => :dotenv do
   # client.message.send(reg_id:'', data:message_data)
   r = client.message.send(alias:'866383029998732', data:message_data)
   # client.message.send(topic:'test', data:message_data)
-  ap r
+  # ap r
+
+
+  r = client.message.send(reg_id:'icyleaf', data:Xiaomi::Push::Message::IOS.new(title: '这是标题', description:'这不是描述'))
+  # ap r
 end
 
 task :message do

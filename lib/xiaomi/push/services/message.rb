@@ -30,7 +30,7 @@ module Xiaomi
           },
           all: {
             uri: 'all',
-            query: 'registration_id'
+            query: 'all'
           },
         }
 
@@ -43,8 +43,13 @@ module Xiaomi
           type, value = fetch_message_type(options)
           if type && value
             url = @context.build_uri("message/#{type[:uri]}")
-            params = options[:data]
-            params[type[:query].to_sym] = value
+            if options[:data].kind_of?Xiaomi::Push::Message::Base
+              options[:data].type(type[:query], value)
+              params = options[:data].build
+            else
+              params = options[:data]
+              params[type[:query].to_sym] = value
+            end
 
             r = RestClient.post url, params, @context.header
             data = MultiJson.load r
