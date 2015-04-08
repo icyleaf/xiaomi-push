@@ -3,6 +3,9 @@
 
 官方文档: http://dev.xiaomi.com/doc/?p=533#d5e725
 
+TL;DR
+=====
+
 安装
 ----
 
@@ -49,15 +52,24 @@ message = {
 ### iOS
 message = Xiaomi::Push::Message::IOS.new(
   description:'iOS 主要显示描述',
-  badge:10
+  badge:10,
+  extras: {
+    uri: 'app://bbs?id=8624',
+    source: 'mpush'
+  }
 )
 
 ### Android
 message = Xiaomi::Push::Message::Android.new(
   title:'标题要有吸引力',
   description:'描述可以在手机显示两行',
-  notify_type:'DEFAULT_ALL'
+  notify_type:'DEFAULT_ALL',
+  extras: {
+    source: 'mpush'
+  }
 )
+#### 支持单独追加 extra
+message.extra('uri', 'app://bbs?id=8624')
 
 # 发消息
 ## 根据 regid
