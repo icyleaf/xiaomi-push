@@ -30,10 +30,16 @@ module Xiaomi
         @topic ||= Services::Topic.new(self)
       end
 
+      def feedback
+        @feedback ||= Services::Feedback.new(self)
+      end
+
+      
       def request(url, params)
         r = RestClient.post url, params, @header
         data = MultiJson.load r
       end
+
     end
   end
 end

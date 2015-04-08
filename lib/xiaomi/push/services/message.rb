@@ -58,6 +58,8 @@ module Xiaomi
           end
         end
 
+        private
+
         def fetch_message_type(data)
           type, value = nil
           MESSAGE_TYPE.select do |k,v|

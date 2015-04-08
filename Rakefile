@@ -57,3 +57,9 @@ task :message do
 
   p ios_message.build
 end
+
+task :feedback do
+  client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
+  r = client.feedback.invalid
+  ap r
+end
