@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "rest-client", "~> 1.8.0"
+  spec.add_dependency "rest-client", ">= 1.7.3"
   spec.add_dependency "commander", "~> 4.3.2"
   spec.add_dependency "multi_json", "~> 1.11.0"
 
