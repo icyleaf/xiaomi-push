@@ -8,7 +8,7 @@ module Xiaomi
 
       attr_reader :device, :secret, :header
       def initialize(secret)
-        @device = self.class.name.split("::")[-1].upcase
+        @device = self.class.name.split('::')[-1].upcase
         @secret = secret
 
         unless DEVICES.include?@device
@@ -34,12 +34,10 @@ module Xiaomi
         @feedback ||= Services::Feedback.new(self)
       end
 
-      
       def request(url, params)
         r = RestClient.post url, params, @header
         data = MultiJson.load r
       end
-
     end
   end
 end

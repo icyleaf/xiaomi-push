@@ -15,28 +15,28 @@ module Xiaomi
         def type(key, value = nil)
           key = "@#{key}"
 
-          unless value
-            instance_variable_get key
-          else
+          if value
             instance_variable_set key, value
+          else
+            instance_variable_get key
           end
         end
 
         def build
           hash_data = {}
           instance_variables.each do |ivar|
-            key = ivar.to_s.gsub('@', '')
+            key = ivar.to_s.delete('@', '')
             value = instance_variable_get ivar
 
-            if value
-              unless key == 'extras'
-                hash_data[key] = value
-              else
-                value.each do |k, v|
-                  key = "extra.#{k}"
-                  hash_data[key] = v
-                end
+            next unless value
+
+            if key == 'extras'
+              value.each do |k, v|
+                key = "extra.#{k}"
+                hash_data[key] = v
               end
+            else
+              hash_data[key] = value
             end
           end
 

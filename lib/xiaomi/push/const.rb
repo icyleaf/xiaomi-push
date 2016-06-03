@@ -1,13 +1,12 @@
 require 'uri'
 
-
 module Xiaomi
   module Push
     module Const
-      DEVICES = %w[ANDROID IOS].freeze
+      DEVICES = %w(ANDROID IOS).freeze
 
-      PRODUCTION_URL = 'https://api.xmpush.xiaomi.com'
-      SANDBOX_URL = 'https://sandbox.xmpush.xiaomi.com'
+      PRODUCTION_URL = 'https://api.xmpush.xiaomi.com'.freeze
+      SANDBOX_URL = 'https://sandbox.xmpush.xiaomi.com'.freeze
 
       attr_reader :base_url
 
@@ -28,7 +27,7 @@ module Xiaomi
       end
 
       def build_uri(uri)
-        URI::join(@base_url, "v2/#{uri}").to_s
+        URI.join(@base_url, "v2/#{uri}").to_s
       end
     end
   end

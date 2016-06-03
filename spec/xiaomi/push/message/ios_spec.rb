@@ -1,19 +1,6 @@
 require 'spec_helper'
 
 describe Xiaomi::Push::Message::IOS do
-
-  context 'title' do
-    it 'has not default value' do
-      expect(subject.title).to be_nil
-    end
-
-    it 'should equal given value' do
-      title = 'this is title'
-      subject.title = title
-      expect(subject.title).to eq title
-    end
-  end
-
   context 'description' do
     it 'has not default value' do
       expect(subject.description).to be_nil
@@ -63,9 +50,8 @@ describe Xiaomi::Push::Message::IOS do
   end
 
   describe 'initialize' do
-    let(:message) { Xiaomi::Push::Message::IOS.new(title: 'TBFP', description:'Today before friday party')}
+    let(:message) { Xiaomi::Push::Message::IOS.new(description: 'Today before friday party')}
     it 'should has valid value for title and desc' do
-      expect(message.title).to eq 'TBFP'
       expect(message.description).to eq 'Today before friday party'
     end
   end

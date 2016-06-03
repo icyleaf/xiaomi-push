@@ -2,10 +2,8 @@
 
 require 'rubygems'
 require 'commander/import'
-require "bundler/setup"
-require "xiaomi/push"
-require "awesome_print"
-
+require 'bundler/setup'
+require 'xiaomi/push'
 
 program :version, Xiaomi::Push::VERSION
 program :description, 'xiaomi push command line tool'

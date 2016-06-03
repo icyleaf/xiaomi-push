@@ -5,7 +5,6 @@ module Xiaomi
     end
 
     class RequestError < Xiaomi::Push::Error
-
     end
 
     class FailuresError < Xiaomi::Push::Error
