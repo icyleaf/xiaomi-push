@@ -22,7 +22,7 @@ task send: :dotenv do
   p 'Send message to android device'
   client.message.send(reg_id: '', message: message)
   r = client.message.send(alias: '866383029998732', message: message)
-  r = client.message.send(topic: 'test', message: message)
+  # r = client.message.send(topic: 'test', message: message)
   puts r
 
   p 'Send message to ios device'
@@ -39,13 +39,13 @@ namespace :topic do
   task subscribe: :dotenv do
     client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
     r = client.topic.subscribe(alias: '866383029998732', name: 'test')
-    ap r
+    puts r
   end
 
   task unsubscribe: :dotenv do
     client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
     r = client.topic.unsubscribe(alias: '866383029998732', name: 'test')
-    ap r
+    puts r
   end
 end
 
