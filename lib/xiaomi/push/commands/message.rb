@@ -4,7 +4,7 @@ command :message do |c|
   c.description = '使用小米推送消息（目前仅支持 regid/alias/topic 推送方式）'
 
   # normal params
-  c.option '--device DEVICE', %w('android', 'ios'), '设备类型'
+  c.option '--device DEVICE', %w(android ios), '设备类型'
   c.option '--secret SECRET', '应用密钥'
 
   # type
