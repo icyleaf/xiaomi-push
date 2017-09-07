@@ -52,7 +52,7 @@ module Xiaomi
             end
 
             r = RestClient.post url, params, @context.header
-            data = MultiJson.load r
+            data = JSON.parse r
           else
             raise Xiaomi::Push::RequestError, 'Not match message type: reg_id/alias/topic/topics/all'
           end

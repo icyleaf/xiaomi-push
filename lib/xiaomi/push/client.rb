@@ -1,5 +1,5 @@
-require "rest-client"
-require "multi_json"
+require 'rest-client'
+require 'json'
 
 module Xiaomi
   module Push
@@ -36,7 +36,7 @@ module Xiaomi
 
       def request(url, params)
         r = RestClient.post url, params, @header
-        data = MultiJson.load r
+        data = JSON.parse r
       end
     end
   end

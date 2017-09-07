@@ -11,7 +11,7 @@ module Xiaomi
         def invalid
           url = 'https://feedback.xmpush.xiaomi.com/v1/feedback/fetch_invalid_regids'
           r = RestClient.get url, @context.header
-          MultiJson.load r
+          JSON.parse r
         end
       end
     end

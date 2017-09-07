@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['icyleaf']
   spec.email         = ['icyleaf.cn@gmail.com']
 
-  spec.summary       = 'MiPush Server SDK for Ruby'
-  spec.description   = 'MiPush Server SDK for Ruby'
+  spec.summary       = '(unofficial) xiaomi push server sdk'
+  spec.description   = '非官方小米推送服务端 Ruby SDK'
   spec.homepage      = 'http://github.com/icyleaf/xiaomi-push'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
@@ -18,11 +18,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'rest-client', '>= 1.7.3'
-  spec.add_dependency 'commander', '~> 4.3.2'
-  spec.add_dependency 'multi_json', '~> 1.11.0'
+  spec.add_dependency 'commander', '~> 4.4.3'
 
-  spec.add_development_dependency 'bundler', '~> 1.9'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'dotenv', '~> 2.0.1'
+  spec.add_development_dependency 'bundler'
+  spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec'
+
+  spec.required_ruby_version = '>= 2.0.0'
 end
