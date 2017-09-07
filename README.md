@@ -42,8 +42,8 @@ $ gem install xiaomi-push
 require 'xiaomi-push'
 
 # 初始化
-## iOS
-client = Xiaomi::Push::IOS('Fill your app secret')
+## iOS (环境支持 :production/:sandbox)
+client = Xiaomi::Push::IOS('Fill your app secret', :production)
 ## Android
 client = Xiaomi::Push::Android('Fill your app secret')
 
