@@ -1,18 +1,19 @@
 command :message do |c|
   c.syntax = 'xmp message [options]'
   c.summary = '发送小米推送消息'
-  c.description = '使用小米推送消息（目前仅支持 regid/alias/topic 推送方式）'
+  c.description = '使用小米推送消息（目前仅支持 regid/alias/user/topic 推送方式）'
 
-  # normal params
+  # 必须参数
   c.option '--device DEVICE', %w(android ios), '设备类型'
   c.option '--secret SECRET', '应用密钥'
 
-  # type
+  # 推送类型
   c.option '--regid REGID', 'reg id'
   c.option '--alias ALIAS', '别名'
-  c.option '--topic TOPIC', '订阅名'
+  c.option '--user USER', '用户'
+  c.option '--topic TOPIC', '标签/群组'
 
-  # message
+  # 消息体
   c.option '-i', '--title TITLE', '消息标题（仅 Android 有效）'
   c.option '-d', '--description DESCRIPTION', '消息主体描述'
   c.option '-b', '--badge BADGE', Integer, '消息数字'
@@ -98,7 +99,7 @@ command :message do |c|
   end
 
   def determine_channel!(options)
-    channles = %w(regid alias topic).freeze
+    channles = %w(regid alias user topic).freeze
     @channel = channles.select { |k| options.__hash__.key?k.to_sym }
 
     if @channel.count > 0

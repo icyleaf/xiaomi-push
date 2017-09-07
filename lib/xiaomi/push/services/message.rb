@@ -6,7 +6,6 @@ module Xiaomi
   module Push
     module Services
       class Message
-
         MESSAGE_TYPE = {
           reg_id: {
             uri: 'regid',
@@ -15,6 +14,10 @@ module Xiaomi
           alias: {
             uri: 'alias',
             query: 'alias'
+          },
+          user: {
+            uri: 'user_account',
+            query: 'user_account'
           },
           topic: {
             uri: 'topic',

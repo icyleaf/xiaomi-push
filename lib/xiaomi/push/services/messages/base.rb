@@ -2,7 +2,7 @@ module Xiaomi
   module Push
     module Message
       class Base
-        attr_accessor :registration_id, :alias, :topic, :topics, :topic_op, :extras
+        attr_accessor :registration_id, :alias, :topic, :user_account, :topics, :topic_op, :extras
 
         def extra(key, value = nil)
           unless value
@@ -25,7 +25,7 @@ module Xiaomi
         def build
           hash_data = {}
           instance_variables.each do |ivar|
-            key = ivar.to_s.delete('@')
+            key = ivar.to_s.delete '@'
             value = instance_variable_get ivar
 
             next unless value
