@@ -25,7 +25,7 @@ module Xiaomi
         def build
           hash_data = {}
           instance_variables.each do |ivar|
-            key = ivar.to_s.delete('@', '')
+            key = ivar.to_s.delete('@')
             value = instance_variable_get ivar
 
             next unless value
