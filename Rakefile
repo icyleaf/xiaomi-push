@@ -1,16 +1,15 @@
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
-require 'dotenv/tasks'
 
-# $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 
-require 'xiaomi/push'
+# require 'xiaomi/push'
 
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
-task send: :dotenv do
+task :send do
   message = {
     title: '这是标题',
     description: '这个是推送的描述',
@@ -36,13 +35,13 @@ task send: :dotenv do
 end
 
 namespace :topic do
-  task subscribe: :dotenv do
+  task :subscribe do
     client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
     r = client.topic.subscribe(alias: '866383029998732', name: 'test')
     puts r
   end
 
-  task unsubscribe: :dotenv do
+  task :unsubscribe do
     client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_ANDROID_SECRET'])
     r = client.topic.unsubscribe(alias: '866383029998732', name: 'test')
     puts r

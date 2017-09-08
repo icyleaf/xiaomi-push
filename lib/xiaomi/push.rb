@@ -3,8 +3,8 @@ require 'xiaomi/push/error'
 require 'xiaomi/push/const'
 require 'xiaomi/push/client'
 
-require 'xiaomi/push/platfoms/ios'
-require 'xiaomi/push/platfoms/android'
+require 'xiaomi/push/platforms/ios'
+require 'xiaomi/push/platforms/android'
 
 require 'xiaomi/push/services/message'
 require 'xiaomi/push/services/topic'
