@@ -6,6 +6,7 @@ module Xiaomi
   module Push
     module Services
       class Message
+        # 消息类型模板
         MESSAGE_TYPE = {
           reg_id: {
             uri: 'regid',
@@ -38,10 +39,20 @@ module Xiaomi
         }
 
         attr_reader :context
+
         def initialize(context)
           @context = context
         end
 
+        # 推送消息
+        #
+        # @param (see Xiaomi::Push::Message::Base#initialize)
+        # @param [Hash] options Hash 结构消息体 (详见 {Xiaomi::Push::Message::IOS}, {Message::Android})
+        # @param [Message::IOS] options iOS 消息体
+        # @param [Message::Android] options Android 消息体
+        # @return [Hash] 小米返回数据结构
+        #
+        # @raise [RequestError] 推送消息不满足 reg_id/alias/topic/topics/all 会引发异常
         def send(**options)
           type, value = fetch_message_type(options)
           if type && value
@@ -57,12 +68,13 @@ module Xiaomi
             r = RestClient.post url, params, @context.header
             data = JSON.parse r
           else
-            raise Xiaomi::Push::RequestError, 'Not match message type: reg_id/alias/topic/topics/all'
+            raise Xiaomi::Push::RequestError, '无效的消息类型，请检查是否符合这些类型: reg_id/alias/topic/topics/all'
           end
         end
 
         private
 
+        # 获取消息类型
         def fetch_message_type(data)
           type, value = nil
           MESSAGE_TYPE.select do |k,v|
@@ -76,6 +88,7 @@ module Xiaomi
           [type, value]
         end
 
+        # 数据校验
         def valid?(params)
           validates = {
             'payload' => {
