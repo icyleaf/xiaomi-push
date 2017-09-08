@@ -92,6 +92,30 @@ client.message.send topic:'topic', message:message
 client.message.send all:true, message:message
 ```
 
+### 订阅/取消订阅标签
+
+```ruby
+# 订阅单个 reg id 到 beijing 标签
+client.topic.subscribe(reg_id: 'abc', topic: 'beijing')
+
+# 订阅多个 alias 到 beijing 标签
+client.topic.subscribe(alias: 'abc,def,ghi,jkl', topic: 'beijing')
+
+# 取消订阅 beijing 标签的单个 reg id
+client.topic.unsubscribe(reg_id: 'abc', topic: 'beijing')
+
+# 取消订阅 beijing 标签的多个 alias
+client.topic.unsubscribe(alias: 'abc,def,ghi,jkl', topic: 'beijing')
+```
+
+### 获取无效 iOS 的推送设备
+
+用于检查 iOS 用户关闭了应用的推送或者是卸载了 App 的设备列表
+
+```ruby
+client.feedback.invalid
+```
+
 ### 命令行工具
 
 本 SDK 同时还附带一个命令行工具 `xmp`，可以使用它尽快快速的测试和验证参数信息.
