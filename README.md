@@ -116,6 +116,15 @@ client.topic.unsubscribe(alias: 'abc,def,ghi,jkl', topic: 'beijing')
 client.feedback.invalid
 ```
 
+### 获取消息的统计数据
+
+```ruby
+# 获取 2017-09-01 到 2017-09-30 应用 com.icyleaf.app.helloworld 统计数据
+client.message.counters('20170901', '20170930', 'com.icyleaf.app.helloworld')
+```
+
+更多用例可查阅 [Rakefile](Rakefile)。
+
 ### 命令行工具
 
 本 SDK 同时还附带一个命令行工具 `xmp`，可以使用它尽快快速的测试和验证参数信息.

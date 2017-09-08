@@ -5,6 +5,9 @@ require 'xiaomi/push/services/messages/android'
 module Xiaomi
   module Push
     module Services
+      # 消息类 API
+      #
+      # @attr [Client] context
       class Message
         # 消息类型模板
         MESSAGE_TYPE = {
@@ -46,6 +49,8 @@ module Xiaomi
 
         # 推送消息
         #
+        # @see https://dev.mi.com/console/doc/detail?pId=1163#_0
+        #
         # @param (see Xiaomi::Push::Message::Base#initialize)
         # @param [Hash] options Hash 结构消息体 (详见 {Xiaomi::Push::Message::IOS}, {Message::Android})
         # @param [Message::IOS] options iOS 消息体
@@ -66,10 +71,33 @@ module Xiaomi
             end
 
             r = RestClient.post url, params, @context.header
-            data = JSON.parse r
+            JSON.parse r
           else
             raise Xiaomi::Push::RequestError, '无效的消息类型，请检查是否符合这些类型: reg_id/alias/topic/topics/all'
           end
+        end
+
+        # 获取消息的统计数据
+        #
+        # @example 获取 2017-09-01 到 2017-09-30 应用 com.icyleaf.app.helloworld 统计数据
+        #   counters('20170901', '20170930', 'com.icyleaf.app.helloworld')
+        #
+        # @see https://dev.mi.com/console/doc/detail?pId=1163#_2
+        #
+        # @param [String] start_date 开始日期，格式 yyyyMMdd
+        # @param [String] end_date 结束日期，必须小于 30 天。格式 yyyyMMdd
+        # @param [String] restricted_package_name 包名，Android 为 package name，iOS 为 Bundle identifier
+        # @return [Hash] 小米返回数据结构
+        def counters(start_date, end_date, package_name)
+          url = build_uri('stats/message/counters')
+          params = {
+            start_date: start_date,
+            end_date: end_date,
+            package_name: package_name
+          }
+
+          r = RestClient.post url, params, @context.headers
+          JSON.parse r
         end
 
         private

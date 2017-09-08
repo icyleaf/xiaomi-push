@@ -22,8 +22,6 @@ module Xiaomi
         sandbox
       end
 
-      private
-
       # :nodoc:
       def production
         @base_url ||= PRODUCTION_URL
@@ -36,7 +34,18 @@ module Xiaomi
 
       # :nodoc:
       def build_uri(uri)
-        URI.join(@base_url, "v2/#{uri}").to_s
+        version =
+          if uri.start_with?('stats', 'trace', 'alias') || uri == 'topic/all'
+            # 获取消息的统计数据/追踪消息状态/某个用户目前设置的所有 Alias 和订阅的所有 Topic
+            'v1'
+          elsif uri.start_with?('message')
+            # 发送消息支持多包使用 v3 版本
+            'v3'
+          else
+            'v2'
+          end
+
+        File.join(@base_url, version, uri)
       end
     end
   end

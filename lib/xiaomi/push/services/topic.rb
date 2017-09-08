@@ -1,7 +1,9 @@
 module Xiaomi
   module Push
     module Services
-      # 推送标签的设置
+      # 标签类 API
+      #
+      # @attr [Client] context
       class Topic
         attr_reader :context
 
