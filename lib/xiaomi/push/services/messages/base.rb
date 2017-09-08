@@ -69,6 +69,9 @@ module Xiaomi
           hash_data
         end
 
+        # 检查是否为 iOS 10 消息体
+        #
+        # @return [Bool]
         def ios10_struct?
           return @ios10_struct unless @ios10_struct.nil?
 
@@ -82,6 +85,17 @@ module Xiaomi
           @ios10_struct
         end
 
+        # 转换 iOS 10 消息的参数
+        #
+        # 仅转换 title, subtitle, body 和 description
+        #
+        # @example
+        #   ios10_struct('title') # => 'aps_proper_fields.title'
+        #   ios10_struct('description') # => 'aps_proper_fields.body'
+        #   ios10_struct('badge') # => 'badge'
+        #
+        # @param [String] key
+        # @return [Bool]
         def ios10_struct(key)
           key = 'body' if key == 'description'
           return key unless %w(title subtitle body).include?(key)
@@ -89,14 +103,23 @@ module Xiaomi
           "aps_proper_fields.#{key}"
         end
 
+        # 检测是否是 iOS 消息体
+        #
+        # @return [Bool]
         def ios?
           current == 'IOS'
         end
 
+        # 检测是否是 Android 消息体
+        #
+        # @return [Bool]
         def android?
           current == 'ANDROID'
         end
 
+        # 当前消息体类型
+        #
+        # @return [String] IOS/ANDROID
         def current
           @current ||= self.class.name.split('::')[-1].upcase
         end
