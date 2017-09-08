@@ -58,8 +58,20 @@ message = {
 ## Builder 模式
 ### iOS
 message = Xiaomi::Push::Message::IOS.new(
-  description:'iOS 主要显示描述',
-  badge:10,
+  description: 'iOS 主要显示描述',
+  badge: 10,
+  extras: {
+    uri: 'app://bbs?id=8624',
+    source: 'mpush'
+  }
+)
+
+### iOS 10
+message = Xiaomi::Push::Message::IOS.new(
+  title: '这是标题',
+  subtitle: '这是副标题'
+  description:'iOS 主要显示描述', # 对于 iOS 这里即可以是 description 也可以是 iOS 10 结构的 body
+  badge: 1,
   extras: {
     uri: 'app://bbs?id=8624',
     source: 'mpush'
@@ -68,9 +80,9 @@ message = Xiaomi::Push::Message::IOS.new(
 
 ### Android
 message = Xiaomi::Push::Message::Android.new(
-  title:'标题要有吸引力',
-  description:'描述可以在手机显示两行',
-  notify_type:'DEFAULT_ALL',
+  title: '标题要有吸引力',
+  description: '描述可以在手机显示两行',
+  notify_type: 'DEFAULT_ALL',
   extras: {
     source: 'mpush'
   }
@@ -133,11 +145,18 @@ client.message.counters('20170901', '20170930', 'com.icyleaf.app.helloworld')
 # 发消息
 ## iOS
 ### 发送附加内容并设置未读消息数为 2
-$ xmp message --device ios --secret '<密钥>' -d '推送的内容' -b 2 -e uri="app://bbs?id",source="push"
+$ xmp message --device ios --secret '<密钥>' \
+  --alias '<Alias>' \
+  -d '推送的描述内容' \
+  -b 2 \
+  -e uri="http://icyleaf.com"
 
 ## Android
 ### 最基本的推送信息
-$ xmp message --device android --secret '<密钥>' -i '推送的标题' -d '推送的内容'
+$ xmp message --device android --secret '<密钥>' \
+  --regid '<RegId>' \
+  -i '推送的标题' \
+  -d '推送的描述内容'
 
 # 查看帮助
 $ xmp message --help

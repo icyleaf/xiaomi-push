@@ -2,6 +2,8 @@ require 'xiaomi/push/services/messages/base'
 require 'xiaomi/push/services/messages/ios'
 require 'xiaomi/push/services/messages/android'
 
+require 'cgi'
+
 module Xiaomi
   module Push
     module Services
@@ -64,11 +66,14 @@ module Xiaomi
             url = @context.build_uri("message/#{type[:uri]}")
             if options[:message].kind_of?Xiaomi::Push::Message::Base
               options[:message].type(type[:query], value)
-              params = options[:message].build
+              params = options[:message].to_params
             else
               params = options[:message]
               params[type[:query].to_sym] = value
             end
+
+            puts url
+            puts params
 
             r = RestClient.post url, params, @context.header
             JSON.parse r
@@ -89,14 +94,15 @@ module Xiaomi
         # @param [String] restricted_package_name 包名，Android 为 package name，iOS 为 Bundle identifier
         # @return [Hash] 小米返回数据结构
         def counters(start_date, end_date, package_name)
-          url = build_uri('stats/message/counters')
+          url = @context.build_uri('stats/message/counters')
           params = {
             start_date: start_date,
             end_date: end_date,
             package_name: package_name
           }
+          url = url + '?' + URI.encode_www_form(params)
 
-          r = RestClient.post url, params, @context.headers
+          r = RestClient.get url, @context.header
           JSON.parse r
         end
 
@@ -116,56 +122,59 @@ module Xiaomi
           [type, value]
         end
 
-        # 数据校验
-        def valid?(params)
-          validates = {
-            'payload' => {
-              require: true,
-            },
-            'restricted_package_name' => {
-              require: true,
-            },
-            'pass_through' => {
-              require: true,
-            },
-            'title' => {
-              require: true,
-            },
-            'description' => {
-              require: true,
-            },
-            'notify_type' => {
-              require: true,
-              values: {
-                'DEFAULT_ALL' => -1,
-                'DEFAULT_SOUND' => 1,
-                'DEFAULT_VIBRATE' => 2,
-                'DEFAULT_LIGHTS' => 3
-              }
-            },
-            'time_to_live' => {
-              require: false,
-            },
-            'time_to_send' => {
-              require: false,
-            },
-            'notify_id' => {
-              require: false,
-            },
-            'extra.sound_uri' => {
-              require: false,
-            },
-            'extra.ticker' => {
-              require: false,
-            },
-            'extra.notify_foreground' => {
-              require: false,
-            },
-            'extra.notify_effect' => {
-              require: false,
-            },
-          }
-        end
+        # # 数据校验
+        # def valid?(params)
+        #   validates = {
+        #     'payload' => {
+        #       require: true,
+        #     },
+        #     'restricted_package_name' => {
+        #       require: true,
+        #     },
+        #     'pass_through' => {
+        #       require: true,
+        #     },
+        #     'title' => {
+        #       require: true,
+        #     },
+        #     'subtitle' => {
+        #       require: false,
+        #     },
+        #     'description' => {
+        #       require: true,
+        #     },
+        #     'notify_type' => {
+        #       require: true,
+        #       values: {
+        #         'DEFAULT_ALL' => -1,
+        #         'DEFAULT_SOUND' => 1,
+        #         'DEFAULT_VIBRATE' => 2,
+        #         'DEFAULT_LIGHTS' => 3
+        #       }
+        #     },
+        #     'time_to_live' => {
+        #       require: false,
+        #     },
+        #     'time_to_send' => {
+        #       require: false,
+        #     },
+        #     'notify_id' => {
+        #       require: false,
+        #     },
+        #     'extra.sound_uri' => {
+        #       require: false,
+        #     },
+        #     'extra.ticker' => {
+        #       require: false,
+        #     },
+        #     'extra.notify_foreground' => {
+        #       require: false,
+        #     },
+        #     'extra.notify_effect' => {
+        #       require: false,
+        #     },
+        #   }
+        # end
       end
     end
   end

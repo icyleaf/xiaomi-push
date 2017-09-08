@@ -41,12 +41,17 @@ module Xiaomi
           end
         end
 
-        # 组装消息体
+        # 转换为字典
         # @return [Hash] 消息体
-        def build
+        def to_params
           hash_data = {}
           instance_variables.each do |ivar|
-            key = ivar.to_s.delete '@'
+            key = instance_key(ivar)
+
+            if ios? && ios10_struct?
+              key = ios10_struct(key)
+            end
+
             value = instance_variable_get ivar
 
             next unless value
@@ -62,6 +67,44 @@ module Xiaomi
           end
 
           hash_data
+        end
+
+        def ios10_struct?
+          return @ios10_struct unless @ios10_struct.nil?
+
+          @ios10_struct = false
+
+          keys = instance_variables.map {|e| instance_key(e) }
+          %w(title subtitle).each do |key|
+            return @ios10_struct = true if keys.include?(key)
+          end
+
+          @ios10_struct
+        end
+
+        def ios10_struct(key)
+          key = 'body' if key == 'description'
+          return key unless %w(title subtitle body).include?(key)
+
+          "aps_proper_fields.#{key}"
+        end
+
+        def ios?
+          current == 'IOS'
+        end
+
+        def android?
+          current == 'ANDROID'
+        end
+
+        def current
+          @current ||= self.class.name.split('::')[-1].upcase
+        end
+
+        private
+
+        def instance_key(var)
+          var.to_s.delete '@'
         end
       end
     end
