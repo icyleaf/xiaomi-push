@@ -16,6 +16,8 @@ command :message do |c|
   # 消息体
   c.option '-i', '--title TITLE', '消息标题（适用于 Android 或 iOS 10 以上设备）'
   c.option '-s', '--subtitle SUBTITLE', '消息副标题（仅适用于 iOS 10 以上设备）'
+  c.option '-m', '--image IMAGE', '消息图片地址（仅适用于 iOS 10 以上设备）'
+  # c.option '-c', '--image IMAGE', '消息图片地址（仅适用于 iOS 10 以上设备）'
   c.option '-d', '--description DESCRIPTION', '消息主体描述'
   c.option '-b', '--badge BADGE', Integer, '消息数字'
   c.option '-e', '--extras KEY=VALUE', Array, '自定义数据(使用 KEY=VALUE 方式，多个以逗号不带空格分隔)'
@@ -67,6 +69,7 @@ command :message do |c|
       title: @title,
       subtitle: @subtitle,
       description: @description,
+      image: @image,
       badge: @badge,
       extras: @extras
     )
@@ -76,6 +79,7 @@ command :message do |c|
     @title = options.title
     @subtitle = options.subtitle
     @description = options.description
+    @image = options.image
     @badge = options.badge
 
     @extras =

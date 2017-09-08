@@ -9,6 +9,17 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
+task :test do
+  m = Xiaomi::Push::Message::IOS.new({
+    title: '这是标题',
+    description: '这个是推送的描述',
+    badge: 2,
+    notify_type: -1
+  })
+
+  pp m.to_params
+end
+
 namespace :message do
   task :send do
     message = {

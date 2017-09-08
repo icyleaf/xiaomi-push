@@ -72,9 +72,6 @@ module Xiaomi
               params[type[:query].to_sym] = value
             end
 
-            puts url
-            puts params
-
             r = RestClient.post url, params, @context.header
             JSON.parse r
           else

@@ -48,8 +48,10 @@ module Xiaomi
           instance_variables.each do |ivar|
             key = instance_key(ivar)
 
-            if ios? && ios10_struct?
-              key = ios10_struct(key)
+            key = if ios? && ios10_struct?
+              ios10_struct(key)
+            else
+              extra_key(key)
             end
 
             value = instance_variable_get ivar
@@ -98,7 +100,7 @@ module Xiaomi
         # @return [Bool]
         def ios10_struct(key)
           key = 'body' if key == 'description'
-          return key unless %w(title subtitle body).include?(key)
+          return extra_key(key) unless %w(title subtitle body mutable-content).include?(key)
 
           "aps_proper_fields.#{key}"
         end
@@ -127,7 +129,20 @@ module Xiaomi
         private
 
         def instance_key(var)
-          var.to_s.delete '@'
+          var.to_s.gsub('_', '-').delete('@')
+        end
+
+        def extra_key?(key)
+          %w(badge sound category).include?(key)
+        end
+
+        def extra_key(key)
+          if extra_key?(key)
+            key = 'sound_url' if key.include?('sound')
+            key = "extra.#{key}"
+          else
+            key
+          end
         end
       end
     end
