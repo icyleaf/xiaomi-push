@@ -99,7 +99,7 @@ command :message do |c|
 
   def determine_device!
     devices = %w(Android iOS).freeze
-    @device = choose "选择推送设备:", *devices
+    @device = choose('选择推送设备:', *devices)
   end
 
   def determine_secret!
@@ -114,8 +114,8 @@ command :message do |c|
       @channel = @channel[0]
       @channel_id = options.__hash__[@channel.to_sym]
     else
-      @channel = choose "选择推送方式:", *channles
-      @channel_id = ask "输入 #{@channel} 的值:"
+      @channel = choose('选择推送方式:', *channles)
+      @channel_id = ask("输入 #{@channel} 的值:")
     end
   end
 end

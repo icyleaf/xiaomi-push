@@ -35,9 +35,9 @@ module Xiaomi
           key = "@#{key}"
 
           if value
-            instance_variable_set key, value
+            instance_variable_set(key, value)
           else
-            instance_variable_get key
+            instance_variable_get(key)
           end
         end
 
@@ -54,7 +54,7 @@ module Xiaomi
               extra_key(key)
             end
 
-            value = instance_variable_get ivar
+            value = instance_variable_get(ivar)
 
             next unless value
 

@@ -35,7 +35,7 @@ module Xiaomi
       # :nodoc:
       def build_uri(uri)
         version =
-          if uri.start_with?('stats', 'trace', 'alias') || uri == 'topic/all'
+          if uri.start_with?('stats', 'trace', 'alias', 'reg_id') || uri == 'topic/all'
             # 获取消息的统计数据/追踪消息状态/某个用户目前设置的所有 Alias 和订阅的所有 Topic
             'v1'
           elsif uri.start_with?('message')

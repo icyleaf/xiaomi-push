@@ -8,4 +8,5 @@ require 'xiaomi/push/platforms/android'
 
 require 'xiaomi/push/services/message'
 require 'xiaomi/push/services/topic'
+require 'xiaomi/push/services/user'
 require 'xiaomi/push/services/feedback'

@@ -31,7 +31,7 @@ module Xiaomi
         # @return [Hash] 小米返回数据结构
         def subscribe(**options)
           url, params = prepare_params(__method__.to_s, options)
-          @context.request url, params
+          @context.request(url, params)
         end
 
         # 取消订阅标签
@@ -51,7 +51,7 @@ module Xiaomi
         # @return [Hash] 小米返回数据结构
         def unsubscribe(**options)
           url, params = prepare_params(__method__.to_s, options)
-          @context.request url, params
+          @context.request(url, params)
         end
 
         private

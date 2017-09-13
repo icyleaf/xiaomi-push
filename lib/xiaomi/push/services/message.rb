@@ -72,8 +72,8 @@ module Xiaomi
               params[type[:query].to_sym] = value
             end
 
-            r = RestClient.post url, params, @context.header
-            JSON.parse r
+            r = HTTP.headers(@context.header).post(url, form: params)
+            JSON.parse(r)
           else
             raise Xiaomi::Push::RequestError, '无效的消息类型，请检查是否符合这些类型: reg_id/alias/topic/topics/all'
           end
@@ -97,10 +97,9 @@ module Xiaomi
             end_date: end_date,
             package_name: package_name
           }
-          url = url + '?' + URI.encode_www_form(params)
 
-          r = RestClient.get url, @context.header
-          JSON.parse r
+          r = HTTP.headers(@context.header).get(url, params: params)
+          JSON.parse(r)
         end
 
         private
@@ -109,7 +108,7 @@ module Xiaomi
         def fetch_message_type(data)
           type, value = nil
           MESSAGE_TYPE.select do |k,v|
-            if data.has_key?k
+            if data.has_key?(k)
               type = v
               value = data[k]
               break
@@ -118,60 +117,6 @@ module Xiaomi
 
           [type, value]
         end
-
-        # # 数据校验
-        # def valid?(params)
-        #   validates = {
-        #     'payload' => {
-        #       require: true,
-        #     },
-        #     'restricted_package_name' => {
-        #       require: true,
-        #     },
-        #     'pass_through' => {
-        #       require: true,
-        #     },
-        #     'title' => {
-        #       require: true,
-        #     },
-        #     'subtitle' => {
-        #       require: false,
-        #     },
-        #     'description' => {
-        #       require: true,
-        #     },
-        #     'notify_type' => {
-        #       require: true,
-        #       values: {
-        #         'DEFAULT_ALL' => -1,
-        #         'DEFAULT_SOUND' => 1,
-        #         'DEFAULT_VIBRATE' => 2,
-        #         'DEFAULT_LIGHTS' => 3
-        #       }
-        #     },
-        #     'time_to_live' => {
-        #       require: false,
-        #     },
-        #     'time_to_send' => {
-        #       require: false,
-        #     },
-        #     'notify_id' => {
-        #       require: false,
-        #     },
-        #     'extra.sound_uri' => {
-        #       require: false,
-        #     },
-        #     'extra.ticker' => {
-        #       require: false,
-        #     },
-        #     'extra.notify_foreground' => {
-        #       require: false,
-        #     },
-        #     'extra.notify_effect' => {
-        #       require: false,
-        #     },
-        #   }
-        # end
       end
     end
   end

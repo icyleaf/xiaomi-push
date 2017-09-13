@@ -1,4 +1,4 @@
-require 'rest-client'
+require 'http'
 require 'json'
 
 module Xiaomi
@@ -49,6 +49,11 @@ module Xiaomi
         @topic ||= Services::Topic.new(self)
       end
 
+      # 用户查询
+      def user
+        @user ||= Services::User.new(self)
+      end
+
       # Feedback
       def feedback
         @feedback ||= Services::Feedback.new(self)
@@ -60,8 +65,8 @@ module Xiaomi
       # @param [Hash] params
       # @return [Hash] 小米返回数据结构
       def request(url, params)
-        r = RestClient.post url, params, @header
-        data = JSON.parse r
+        r = HTTP.headers(@header).post(url, form: params)
+        data = JSON.parse(r)
       end
 
       private

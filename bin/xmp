@@ -6,7 +6,7 @@ require 'bundler/setup'
 require 'xiaomi/push'
 
 program :version, Xiaomi::Push::VERSION
-program :description, 'xiaomi push command line tool'
+program :description, '小米推送命令行工具'
 
 program :help, 'Author', 'icyleaf'
 program :help, 'Website', 'icyleaf.cn@gmail.com'
