@@ -6,11 +6,7 @@
 [![Gem version](https://img.shields.io/gem/v/xiaomi-push.svg?style=flat)](https://rubygems.org/gems/xiaomi-push)
 [![License](https://img.shields.io/badge/license-MIT-red.svg?style=flat)](LICENSE.txt)
 
-> 2017年9月7日更新：万年巨坑重新开坑，目前正在开发并支持 2016 年后的新功能...
-
-官方 API 文档: https://dev.mi.com/console/doc/detail?pId=1163
-
-官方 SDK 下载：https://dev.mi.com/mipush/downpage/ (Python Java PHP)
+> 2017年9月7日更新：当前分支已支持 2016 年后官方的新功能。
 
 ## TL;DR
 
@@ -36,7 +32,9 @@ $ gem install xiaomi-push
 
 ### 用法
 
-### 发消息
+### 发单一消息
+
+支持按照 `reg_id`/`alias`/`topic`/`topics`/`user`/`all` 的方式向单个或一组设备发送同一条推送消息。
 
 ```ruby
 require 'xiaomi-push'
@@ -104,6 +102,63 @@ client.message.send topic:'topic', message:message
 client.message.send all:true, message:message
 ```
 
+### 发送多条消息
+
+支持同一设备类型的设备发送不同的消息。**注意**发送多个消息不能是不同类型的设备 key。
+
+支持的消息类型：
+
+- `:reg_id`
+  - `reg_id`
+  - `regid`
+  - `registration_id`
+- `:alias`
+  - `:alias`
+- `:user`
+  - `:user`
+  - `:account`
+  - `:useraccount`
+  - `:user_account`
+
+> 以上子列表为消息体传递的设备的 key 的名字。
+
+```ruby
+# 向多个 reg id 发送不同的消息
+client.messages.send(:reg_id, [
+  {
+    reg_id: 'abc',
+    title: '这是标题1',
+    description: '这个是推送的描述1',
+    notify_type: -1
+  },
+  {
+    regid: 'dfc',
+    title: '这是标题2',
+    description: '这个是推送的描述2',
+  },
+  {
+    registration_id: 'dfc',
+    title: '这是标题2',
+    description: '这个是推送的描述2',
+  }
+])
+
+# 这个是错误的消息，无法发送
+client.messages.send(:alias, [
+  {
+    reg_id: 'abc',
+    title: '这是标题1',
+    description: '这个是推送的描述1',
+    notify_type: -1
+  },
+  {
+    user: 'dfc',
+    title: '这是标题2',
+    description: '这个是推送的描述2',
+  },
+])
+```
+
 ### 订阅/取消订阅标签
 
 ```ruby
@@ -161,6 +216,11 @@ $ xmp message --device android --secret '<密钥>' \
 # 查看帮助
 $ xmp message --help
 ```
+
+## 相关资源
+
+- 官方 API 文档: https://dev.mi.com/console/doc/detail?pId=1163
+- 官方 SDK 下载：https://dev.mi.com/mipush/downpage/ (Python Java PHP)
 
 ## 贡献代码
 

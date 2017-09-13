@@ -25,8 +25,8 @@ module Xiaomi
       # @param [String] secret 小米应用的 App Secret
       # @param [Symbol] env 推送环境，可用的环境有 :production/:sandbox
       #
-      # @raise [NameError] 必须使用 Xiaomi::Push::Android 或 Xiaomi::Push::IOS 实例化
-      # @raise [NameError] Android 使用 sandbox 推送环境引发异常
+      # @raise [RequestError] 必须使用 Xiaomi::Push::Android 或 Xiaomi::Push::IOS 实例化
+      # @raise [RequestError] Android 使用 sandbox 推送环境引发异常
       def initialize(secret, env = :production)
         @device = self.class.name.split('::')[-1].upcase
         @client = HTTP.headers(authorization: "key=#{secret}")
@@ -36,9 +36,14 @@ module Xiaomi
         env == :production ? use_production! : use_sandbox!
       end
 
-      # 消息
+      # 单条消息
       def message
         @message ||= Services::Message.new(self)
+      end
+
+      # 多条消息
+      def messages
+        @messages ||= Services::Messages.new(self)
       end
 
       # 标签
@@ -80,11 +85,11 @@ module Xiaomi
 
       def determine_platform!(env)
         unless DEVICES.include?@device
-          raise NameError, '必须使用 Xiaomi::Push::Android 或 Xiaomi::Push::IOS 实例化'
+          raise RequestError, '必须使用 Xiaomi::Push::Android 或 Xiaomi::Push::IOS 实例化'
         end
 
         if env == :sandbox && @device == 'ANDROID'
-          raise NameError, 'Android 环境不能支持 sandbox 测试环境'
+          raise RequestError, 'Android 环境不能支持 sandbox 测试环境'
         end
       end
     end

@@ -9,22 +9,6 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
-task :test do
-  # m = Xiaomi::Push::Message::IOS.new({
-  #   title: '这是标题',
-  #   description: '这个是推送的描述',
-  #   badge: 2,
-  #   notify_type: -1
-  # })
-
-  # pp m.to_params
-
-  client = Xiaomi::Push::IOS.new(ENV['XIAOMI_PUSH_SECRET'])
-  # r = client.user.aliases('Apn5cKFa3OaH/wrv0V/CpyQI3JLwUPEkBg8y7zBJc0s=')
-  r = client.user.reg_id('"ABA82094-C785-9FC5-0DA3-F4DC5731EEFD')
-  pp r
-end
-
 namespace :message do
   task :send do
     message = {
@@ -48,6 +32,23 @@ namespace :message do
         description: '这不是描述'
     ))
     puts r
+  end
+
+  task :multi_send do
+    client = Xiaomi::Push::Android.new(ENV['XIAOMI_PUSH_SECRET'])
+    client.messages.send(:reg_idss, [
+      {
+        reg_id: 'abc',
+        title: '这是标题1',
+        description: '这个是推送的描述1',
+        notify_type: -1
+      },
+      {
+        reg_id: 'dfc',
+        title: '这是标题2',
+        description: '这个是推送的描述2',
+      }
+    ])
   end
 
   task :counters, [:package_name, :start_date, :end_date] do |t, opts|

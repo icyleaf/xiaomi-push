@@ -18,7 +18,7 @@ module Xiaomi
         # @return [Hash] 小米返回数据结构
         def invalid
           url = 'https://feedback.xmpush.xiaomi.com/v1/feedback/fetch_invalid_regids'
-          @context.get url
+          @context.get(url)
         end
       end
     end

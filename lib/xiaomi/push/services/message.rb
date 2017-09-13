@@ -2,12 +2,14 @@ require 'xiaomi/push/services/messages/base'
 require 'xiaomi/push/services/messages/ios'
 require 'xiaomi/push/services/messages/android'
 
-require 'cgi'
-
 module Xiaomi
   module Push
     module Services
-      # 消息类 API
+      # 单条消息类 API
+      #
+      # 允许向单个设备或多个设备发送同样的推送消息
+      #
+      # 设备的标识支持 reg_id/alias/user/topic/topics/all
       #
       # @attr [Client] context
       class Message
@@ -59,7 +61,7 @@ module Xiaomi
         # @param [Message::Android] options Android 消息体
         # @return [Hash] 小米返回数据结构
         #
-        # @raise [RequestError] 推送消息不满足 reg_id/alias/topic/topics/all 会引发异常
+        # @raise [RequestError] 推送消息不满足 reg_id/alias/user/topic/topics/all 会引发异常
         def send(**options)
           type, value = fetch_message_type(options)
           if type && value
