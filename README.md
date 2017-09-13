@@ -206,6 +206,7 @@ $ xmp message --device ios --secret '<密钥>' \
   -d '推送的描述内容' \
   -b 2 \
   -e uri="http://icyleaf.com"
+# => {"result"=>"ok", "trace_id"=>"abc", "code"=>0, "data"=>{"id"=>"abc68b8350529097551xyz"}, "description"=>"成功", "info"=>"Received push messages for 1 ALIAS"}
 
 ## Android
 ### 最基本的推送信息
@@ -213,9 +214,35 @@ $ xmp message --device android --secret '<密钥>' \
   --regid '<RegId>' \
   -i '推送的标题' \
   -d '推送的描述内容'
+# => {"result"=>"ok", "trace_id"=>"abc", "code"=>0, "data"=>{"id"=>"abc68b8350529097551xyz"}, "description"=>"成功", "info"=>"Received push messages for 1 REG_ID"}
+
+# 查找绑定的 aliases 和 topics
+$ xmp user --device ios --secret '<密钥>' --reg-id '<RegId>'
+# => alias count: 1
+# =>  * ABCDEFGH-1234-5678-90ABC-F4DC5731EEFD
+# => topic count: 1
+# =>  * all
+
+# 查找 iOS 无效的设备（Reg id）
+$ xmp feedback --device ios --secret '<密钥>'
+# => {"result"=>"ok", "trace_id"=>"Xlm07b67505290966457ey", "code"=>0, "data"=>{"list"=>["+9AKnbpV22HafwE7vjYMr6Hc7i41ClyQr7iqX1fm7zc="]}}
 
 # 查看帮助
 $ xmp message --help
+
+  NAME:
+
+    xmp
+
+  DESCRIPTION:
+
+    小米推送命令行工具
+
+  COMMANDS:
+
+    feedback 获取小米无效的设备列表
+    message  发送小米推送消息
+    user     小米 aliases/topics 查询工具
 ```
 
 ## 相关资源

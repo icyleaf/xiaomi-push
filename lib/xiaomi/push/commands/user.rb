@@ -1,6 +1,6 @@
 command :user do |c|
   c.syntax = 'xmp user [options]'
-  c.summary = '小米 reg id 查询工具'
+  c.summary = '小米 aliases/topics 查询工具'
   c.description = '通过 reg id 查找用户绑定的 alias 和 topic'
 
   # normal params
