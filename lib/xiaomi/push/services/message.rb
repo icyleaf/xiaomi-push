@@ -72,8 +72,7 @@ module Xiaomi
               params[type[:query].to_sym] = value
             end
 
-            r = HTTP.headers(@context.header).post(url, form: params)
-            JSON.parse(r)
+            @context.post(url, params)
           else
             raise Xiaomi::Push::RequestError, '无效的消息类型，请检查是否符合这些类型: reg_id/alias/topic/topics/all'
           end
@@ -98,8 +97,7 @@ module Xiaomi
             package_name: package_name
           }
 
-          r = HTTP.headers(@context.header).get(url, params: params)
-          JSON.parse(r)
+          @context.get(url, params)
         end
 
         private

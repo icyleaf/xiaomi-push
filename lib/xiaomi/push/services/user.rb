@@ -30,8 +30,7 @@ module Xiaomi
         # @return [Hash] 小米返回数据结构
         def aliases(reg_id, package_name = nil)
           url = @context.build_uri('alias/all')
-          r = HTTP.headers(@context.header).get(url, params: reg_params(reg_id, package_name))
-          JSON.parse(r)
+          @context.get(url, reg_params(reg_id, package_name))
         end
 
         # 根据 reg id 查找设置的标签（Topics）
@@ -43,8 +42,7 @@ module Xiaomi
         # @return [Hash] 小米返回数据结构
         def topices(reg_id, package_name = nil)
           url = @context.build_uri('topic/all')
-          r = HTTP.headers(@context.header).get(url, params: reg_params(reg_id, package_name))
-          JSON.parse(r)
+          @context.get(url, reg_params(reg_id, package_name))
         end
 
         private

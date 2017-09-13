@@ -16,7 +16,7 @@ module Xiaomi
     class Client
       include Const
 
-      attr_reader :device, :secret, :header
+      attr_reader :device, :client
 
       # 实例化一个新的客户端
       #
@@ -29,10 +29,7 @@ module Xiaomi
       # @raise [NameError] Android 使用 sandbox 推送环境引发异常
       def initialize(secret, env = :production)
         @device = self.class.name.split('::')[-1].upcase
-        @secret = secret
-        @header = {
-          'Authorization' => "key=#{@secret}"
-        }
+        @client = HTTP.headers(authorization: "key=#{secret}")
 
         determine_platform!(env)
 
@@ -59,13 +56,23 @@ module Xiaomi
         @feedback ||= Services::Feedback.new(self)
       end
 
-      # 以 POST 方式的通用网络请求
+      # 以 GET 方式的网络请求
       #
       # @param [String] url
       # @param [Hash] params
       # @return [Hash] 小米返回数据结构
-      def request(url, params)
-        r = HTTP.headers(@header).post(url, form: params)
+      def get(url, params = nil)
+        r = @client.get(url, params: params)
+        data = JSON.parse(r)
+      end
+
+      # 以 POST 方式的网络请求
+      #
+      # @param [String] url
+      # @param [Hash] params
+      # @return [Hash] 小米返回数据结构
+      def post(url, params = nil)
+        r = @client.post(url, form: params)
         data = JSON.parse(r)
       end
 
