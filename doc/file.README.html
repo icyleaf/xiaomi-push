@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="ruby-sdk">非官方小米推送服务端 Ruby SDK</h1>
+
+<p><a href="https://circleci.com/gh/icyleaf/xiaomi-push"><img src="https://img.shields.io/circleci/project/github/icyleaf/xiaomi-push.svg?style=flat" alt="Build Status" /></a>
+<a href="https://codeclimate.com/github/icyleaf/xiaomi-push"><img src="https://img.shields.io/codeclimate/github/icyleaf/xiaomi-push.svg?style=flat" alt="Code Climate" /></a>
+<a href="https://inch-ci.org/github/icyleaf/xiaomi-push"><img src="http://inch-ci.org/github/icyleaf/xiaomi-push.svg?style=flat" alt="Inline docs" /></a>
+<a href="https://rubygems.org/gems/xiaomi-push"><img src="https://img.shields.io/gem/v/xiaomi-push.svg?style=flat" alt="Gem version" /></a>
+<a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-red.svg?style=flat" alt="License" /></a></p>
+
+<blockquote>
+  <p>2017年9月7日更新：万年巨坑重新开坑，目前正在开发并支持 2016 年后的新功能…</p>
+</blockquote>
+
+<p>官方 API 文档: https://dev.mi.com/console/doc/detail?pId=1163</p>
+
+<p>官方 SDK 下载：https://dev.mi.com/mipush/downpage/ (Python Java PHP)</p>
+
+<h2 id="tldr">TL;DR</h2>
+
+<h3 id="section">安装</h3>
+
+<p>添加如下至 Gemfile:</p>
+
+<p><code>ruby
+gem 'xiaomi-push'
+</code></p>
+
+<p>执行:</p>
+
+<p><code>
+$ bundle
+</code></p>
+
+<p>或直接安装:</p>
+
+<p><code>
+$ gem install xiaomi-push
+</code></p>
+
+<h3 id="section-1">用法</h3>
+
+<h3 id="section-2">发单一消息</h3>
+
+<p>支持按照 <code>reg_id</code>/<code>alias</code>/<code>topic</code>/<code>topics</code>/<code>user</code>/<code>all</code> 的方式向单个或一组设备发送同一条推送消息。</p>
+
+<p>```ruby
+require ‘xiaomi-push’</p>
+
+<h1 id="section-3">初始化</h1>
+<p>## iOS (环境支持 :production/:sandbox)
+client = Xiaomi::Push::IOS(‘Fill your app secret’, :production)
+## Android
+client = Xiaomi::Push::Android(‘Fill your app secret’)</p>
+
+<h1 id="section-4">消息结构</h1>
+<p>## Hash 模式
+message = {
+  ‘title’: ‘Android 需要标题’,
+  ‘descrption’: ‘iOS 主要显示描述’,
+  ‘extra.uri’: ‘app://bbs?id=8624’
+}</p>
+
+<h2 id="builder-">Builder 模式</h2>
+<p>### iOS
+message = Xiaomi::Push::Message::IOS.new(
+  description: ‘iOS 主要显示描述’,
+  badge: 10,
+  extras: {
+    uri: ‘app://bbs?id=8624’,
+    source: ‘mpush’
+  }
+)</p>
+
+<h3 id="ios-10">iOS 10</h3>
+<p>message = Xiaomi::Push::Message::IOS.new(
+  title: ‘这是标题’,
+  subtitle: ‘这是副标题’
+  description:’iOS 主要显示描述’, # 对于 iOS 这里即可以是 description 也可以是 iOS 10 结构的 body
+  badge: 1,
+  extras: {
+    uri: ‘app://bbs?id=8624’,
+    source: ‘mpush’
+  }
+)</p>
+
+<h3 id="android">Android</h3>
+<p>message = Xiaomi::Push::Message::Android.new(
+  title: ‘标题要有吸引力’,
+  description: ‘描述可以在手机显示两行’,
+  notify_type: ‘DEFAULT_ALL’,
+  extras: {
+    source: ‘mpush’
+  }
+)
+#### 支持单独追加 extra
+message.extra(‘uri’, ‘app://bbs?id=8624’)</p>
+
+<h1 id="section-5">发消息</h1>
+<p>## 根据 regid
+client.message.send reg_id:’id’, message:message</p>
+
+<h2 id="alias">根据 alias</h2>
+<p>client.message.send alias:’alias’, message:message</p>
+
+<h2 id="topic">根据 topic</h2>
+<p>client.message.send topic:’topic’, message:message</p>
+
+<h2 id="section-6">全部推送</h2>
+<p>client.message.send all:true, message:message
+```</p>
+
+<h3 id="section-7">发送多条消息</h3>
+
+<p>支持同一设备类型的设备发送不同的消息。<strong>注意</strong>发送多个消息不能是不同类型的设备 key。</p>
+
+<p>支持的消息类型：</p>
+
+<ul>
+  <li><code>:reg_id</code>
+    <ul>
+      <li><code>reg_id</code></li>
+      <li><code>regid</code></li>
+      <li><code>registration_id</code></li>
+    </ul>
+  </li>
+  <li><code>:alias</code>
+    <ul>
+      <li><code>:alias</code></li>
+    </ul>
+  </li>
+  <li><code>:user</code>
+    <ul>
+      <li><code>:user</code></li>
+      <li><code>:account</code></li>
+      <li><code>:useraccount</code></li>
+      <li><code>:user_account</code></li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>以上子列表为消息体传递的设备的 key 的名字。</p>
+</blockquote>
+
+<p>```ruby
+# 向多个 reg id 发送不同的消息
+client.messages.send(:reg_id, [
+  {
+    reg_id: ‘abc’,
+    title: ‘这是标题1’,
+    description: ‘这个是推送的描述1’,
+    notify_type: -1
+  },
+  {
+    regid: ‘dfc’,
+    title: ‘这是标题2’,
+    description: ‘这个是推送的描述2’,
+  },
+  {
+    registration_id: ‘dfc’,
+    title: ‘这是标题2’,
+    description: ‘这个是推送的描述2’,
+  }
+])</p>
+
+<h1 id="section-8">这个是错误的消息，无法发送</h1>
+<p>client.messages.send(:alias, [
+  {
+    reg_id: ‘abc’,
+    title: ‘这是标题1’,
+    description: ‘这个是推送的描述1’,
+    notify_type: -1
+  },
+  {
+    user: ‘dfc’,
+    title: ‘这是标题2’,
+    description: ‘这个是推送的描述2’,
+  },
+])
+```</p>
+
+<h3 id="section-9">订阅/取消订阅标签</h3>
+
+<p>```ruby
+# 订阅单个 reg id 到 beijing 标签
+client.topic.subscribe(reg_id: ‘abc’, topic: ‘beijing’)</p>
+
+<h1 id="alias--beijing-">订阅多个 alias 到 beijing 标签</h1>
+<p>client.topic.subscribe(alias: ‘abc,def,ghi,jkl’, topic: ‘beijing’)</p>
+
+<h1 id="beijing--reg-id">取消订阅 beijing 标签的单个 reg id</h1>
+<p>client.topic.unsubscribe(reg_id: ‘abc’, topic: ‘beijing’)</p>
+
+<h1 id="beijing--alias">取消订阅 beijing 标签的多个 alias</h1>
+<p>client.topic.unsubscribe(alias: ‘abc,def,ghi,jkl’, topic: ‘beijing’)
+```</p>
+
+<h3 id="ios-">获取无效 iOS 的推送设备</h3>
+
+<p>用于检查 iOS 用户关闭了应用的推送或者是卸载了 App 的设备列表</p>
+
+<p><code>ruby
+client.feedback.invalid
+</code></p>
+
+<h3 id="section-10">获取消息的统计数据</h3>
+
+<p><code>ruby
+# 获取 2017-09-01 到 2017-09-30 应用 com.icyleaf.app.helloworld 统计数据
+client.message.counters('20170901', '20170930', 'com.icyleaf.app.helloworld')
+</code></p>
+
+<p>更多用例可查阅 <a href="Rakefile">Rakefile</a>。</p>
+
+<h3 id="section-11">命令行工具</h3>
+
+<p>本 SDK 同时还附带一个命令行工具 <code>xmp</code>，可以使用它尽快快速的测试和验证参数信息.</p>
+
+<p>```bash
+# 发消息
+## iOS
+### 发送附加内容并设置未读消息数为 2
+$ xmp message –device ios –secret ‘<密钥>' \
+  --alias '<Alias>' \
+  -d '推送的描述内容' \
+  -b 2 \
+  -e uri="http://icyleaf.com"</Alias></密钥></p>
+
+<h2 id="android-1">Android</h2>
+<p>### 最基本的推送信息
+$ xmp message –device android –secret ‘<密钥>' \
+  --regid '<RegId>' \
+  -i '推送的标题' \
+  -d '推送的描述内容'</RegId></密钥></p>
+
+<h1 id="section-12">查看帮助</h1>
+<p>$ xmp message –help
+```</p>
+
+<h2 id="section-13">贡献代码</h2>
+
+<ol>
+  <li>Fork it ( https://github.com/[my-github-username]/xiaomi-push/fork )</li>
+  <li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+  <li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+  <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+  <li>Create a new Pull Request</li>
+</ol>
+</div></div>
+
+      <div id="footer">
+  Generated on Wed Sep 13 17:31:01 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.9 (ruby-2.4.1).
+</div>
+
+    </div>
+  </body>
+</html>
