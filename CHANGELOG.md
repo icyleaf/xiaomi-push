@@ -4,6 +4,8 @@
 
 主要围绕 [#4](https://github.com/icyleaf/xiaomi-push/issues/4) 的需求完成：
 
+- [重大改变] 仅支持 ruby 2.1（包含）以上版本
+
 - [新增] 支持 iOS 10 的消息结构
 - [新增] 初始化支持使用 sandbox 推送环境
 - [新增] `message.counters` 接口获取消息的统计数据

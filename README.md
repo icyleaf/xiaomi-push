@@ -6,9 +6,9 @@
 [![Gem version](https://img.shields.io/gem/v/xiaomi-push.svg?style=flat)](https://rubygems.org/gems/xiaomi-push)
 [![License](https://img.shields.io/badge/license-MIT-red.svg?style=flat)](LICENSE.txt)
 
-> 2017年9月7日更新：当前分支已支持 2016 年后官方的新功能。
-
 ## TL;DR
+
+> 特别注意：仅支持 Ruby 2.1.0 （包含）以上版本。
 
 ### 安装
 
