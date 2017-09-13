@@ -56,9 +56,7 @@ module Xiaomi
         # @see https://dev.mi.com/console/doc/detail?pId=1163#_0
         #
         # @param (see Xiaomi::Push::Message::Base#initialize)
-        # @param [Hash] options Hash 结构消息体 (详见 {Xiaomi::Push::Message::IOS}, {Message::Android})
-        # @param [Message::IOS] options iOS 消息体
-        # @param [Message::Android] options Android 消息体
+        # @param [Hash, Message::IOS, Message::Android] options Hash 结构消息体 (详见 {Xiaomi::Push::Message::IOS}, {Message::Android})
         # @return [Hash] 小米返回数据结构
         #
         # @raise [RequestError] 推送消息不满足 reg_id/alias/user/topic/topics/all 会引发异常
@@ -89,14 +87,14 @@ module Xiaomi
         #
         # @param [String] start_date 开始日期，格式 yyyyMMdd
         # @param [String] end_date 结束日期，必须小于 30 天。格式 yyyyMMdd
-        # @param [String] restricted_package_name 包名，Android 为 package name，iOS 为 Bundle identifier
+        # @param [String] package_name 包名，Android 为 package name，iOS 为 Bundle identifier
         # @return [Hash] 小米返回数据结构
         def counters(start_date, end_date, package_name)
           url = @context.build_uri('stats/message/counters')
           params = {
             start_date: start_date,
             end_date: end_date,
-            package_name: package_name
+            restricted_package_name: package_name
           }
 
           @context.get(url, params)

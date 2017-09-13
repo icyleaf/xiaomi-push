@@ -40,21 +40,21 @@ $ gem install xiaomi-push
 require 'xiaomi-push'
 
 # 初始化
-## iOS (环境支持 :production/:sandbox)
+# iOS (环境支持 :production/:sandbox)
 client = Xiaomi::Push::IOS('Fill your app secret', :production)
-## Android
+# Android
 client = Xiaomi::Push::Android('Fill your app secret')
 
 # 消息结构
-## Hash 模式
+# Hash 模式
 message = {
   'title': 'Android 需要标题',
   'descrption': 'iOS 主要显示描述',
   'extra.uri': 'app://bbs?id=8624'
 }
 
-## Builder 模式
-### iOS
+# Builder 模式
+# iOS
 message = Xiaomi::Push::Message::IOS.new(
   description: 'iOS 主要显示描述',
   badge: 10,
@@ -64,7 +64,7 @@ message = Xiaomi::Push::Message::IOS.new(
   }
 )
 
-### iOS 10
+# iOS 10
 message = Xiaomi::Push::Message::IOS.new(
   title: '这是标题',
   subtitle: '这是副标题'
@@ -76,7 +76,7 @@ message = Xiaomi::Push::Message::IOS.new(
   }
 )
 
-### Android
+# Android
 message = Xiaomi::Push::Message::Android.new(
   title: '标题要有吸引力',
   description: '描述可以在手机显示两行',
@@ -85,20 +85,21 @@ message = Xiaomi::Push::Message::Android.new(
     source: 'mpush'
   }
 )
-#### 支持单独追加 extra
+
+# 支持单独追加 extra
 message.extra('uri', 'app://bbs?id=8624')
 
 # 发消息
-## 根据 regid
+# 根据 regid
 client.message.send reg_id:'id', message:message
 
-## 根据 alias
+# 根据 alias
 client.message.send alias:'alias', message:message
 
-## 根据 topic
+# 根据 topic
 client.message.send topic:'topic', message:message
 
-## 全部推送
+# 全部推送
 client.message.send all:true, message:message
 ```
 
